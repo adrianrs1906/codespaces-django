@@ -34,10 +34,13 @@ if 'CODESPACE_NAME' in os.environ:
     codespace_domain = config("GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN")
     CSRF_TRUSTED_ORIGINS = [f'https://{codespace_name}-8000.{codespace_domain}']
 
-# Añade esto para que Render no te de error 403 al enviar formularios
+
+# 1. Crea la lista vacía primero
+CSRF_TRUSTED_ORIGINS = []
+
+# 2. Luego agrega la variable de Render
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
     CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
 
 # Application definition
