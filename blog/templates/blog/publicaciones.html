@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Autos de lujo | Concesionario premium</title>
+   <link rel="stylesheet" href="{% static 'blog/style.css' %}?v=1.2" />
+</head>
+<body>
+   <header class="site-header">
+      <div class="brand">LuxDrive</div>
+      <nav class="nav-links">
+         <a href="#autos">Modelos</a>
+         <a href="#cotizacion">Cotización</a>
+         <a href="#comentarios">Comentarios</a>
+      </nav>
+   </header>
+
+   <header class="hero">
+      <div class="hero-copy">
+         <p class="eyebrow">Concesionario premium</p>
+         <h1>Autos de lujo para clientes exigentes</h1>
+         <p>Descubre superdeportivos exclusivos con planes de pago transparentes, atención VIP y entrega personalizada.</p>
+         <div class="hero-actions">
+            <a class="btn-primary" href="#cotizacion">Cotiza tu auto</a>
+            <a class="btn-secondary" href="#autos">Ver modelos</a>
+         </div>
+         <div class="hero-stats">
+            <div>
+               <strong>3 modelos</strong>
+               <span>Superdeportivos seleccionados</span>
+            </div>
+            <div>
+               <strong>Atención VIP</strong>
+               <span>Soporte personalizado</span>
+            </div>
+         </div>
+      </div>
+      <div class="hero-image-container">
+         <img class="hero-image" src="{% static 'blog/ferrari-f8.jpg' %}" alt="Auto de lujo" />
+      </div>
+   </header>
+
+   <main>
+      <section class="features">
+         <article class="feature-card">
+            <h3>Selección exclusiva</h3>
+            <p>Solo los mejores autos de lujo, con especificaciones premium y disponibilidad inmediata.</p>
+         </article>
+         <article class="feature-card">
+            <h3>Financiamiento flexible</h3>
+            <p>Elige plazos que se adapten a tus necesidades y conoce tu cuota mensual al instante.</p>
+         </article>
+         <article class="feature-card">
+            <h3>Experiencia confiable</h3>
+            <p>Compra segura con atención personalizada y un proceso de compra claro.</p>
+         </article>
+      </section>
+
+      <section class="quote-panel" id="cotizacion">
+         <h2>Calcula tu pago mensual</h2>
+         <form method="get" class="quote-form">
+            <label for="car_id">Selecciona un modelo</label>
+            <select id="car_id" name="car_id" required>
+               <option value="">Elige un auto</option>
+               {% for car in cars %}
+               <option value="{{ car.id }}" {% if selected_car and car.id == selected_car.id %}selected{% endif %}>
+                  {{ car.name }} — ${{ car.price|floatformat:0 }}
+               </option>
+               {% endfor %}
+            </select>
+
+            <label for="months">Plazo en meses</label>
+            <select id="months" name="months">
+               <option value="36" {% if months == 36 %}selected{% endif %}>36 meses</option>
+               <option value="48" {% if months == 48 %}selected{% endif %}>48 meses</option>
+               <option value="60" {% if months == 60 %}selected{% endif %}>60 meses</option>
+               <option value="72" {% if months == 72 %}selected{% endif %}>72 meses</option>
+            </select>
+
+            <button class="btn-primary" type="submit">Ver cotización</button>
+         </form>
+
+         {% if selected_car %}
+         <div class="quote-result">
+            <h3>Cotización para {{ selected_car.name }}</h3>
+            <p class="result-price">Precio total: <strong>${{ selected_car.price|floatformat:0 }}</strong></p>
+            <p>Plazo elegido: <strong>{{ months }} meses</strong></p>
+            <p class="result-monthly">Pago mensual aproximado: <strong>${{ monthly_payment|floatformat:2 }}</strong></p>
+            <p class="small-text">Esta es una estimación basada en el precio del auto. Para crédito real, consulta con nuestro asesor.</p>
+         </div>
+         {% else %}
+         <div class="quote-result quote-empty">
+            <p>Selecciona un modelo y plazo para ver tu cotización mensual.</p>
+         </div>
+         {% endif %}
+      </section>
+
+      <section class="car-grid" id="autos">
+         {% for car in cars %}
+         <article class="car-card">
+            <img src="{% static car.image %}" alt="{{ car.name }}" />
+            <div class="car-card-body">
+               <span class="badge">{{ car.name }}</span>
+               <h3>{{ car.name }}</h3>
+               <p>{{ car.description }}</p>
+               <p class="car-price">${{ car.price|floatformat:0 }}</p>
+            </div>
+         </article>
+         {% endfor %}
+      </section>
+
+      <section class="comments-section" id="comentarios">
+         <h2>Comentarios</h2>
+         <form method="post" class="comment-form">
+            {% csrf_token %}
+            <label for="name">Nombre</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email (opcional)</label>
+            <input type="email" id="email" name="email">
+
+            <label for="message">Comentario</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+
+            <button type="submit" class="btn-primary">Publicar comentario</button>
+         </form>
+
+         <div class="comments-list">
+            {% for comment in comments %}
+            <div class="comment">
+               <h4>{{ comment.name }}</h4>
+               <p>{{ comment.message }}</p>
+               <small>{{ comment.created_at|date:"d/m/Y H:i" }}</small>
+            </div>
+            {% empty %}
+            <p>No hay comentarios aún. ¡Sé el primero en comentar!</p>
+            {% endfor %}
+         </div>
+      </section>
+   </main>
+</body>
+</html>
