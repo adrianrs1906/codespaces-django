@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_browser_reload",
     "blog",
+    
 ]
 if 'CODESPACE_NAME' in os.environ:
     codespace_name = config("CODESPACE_NAME")
