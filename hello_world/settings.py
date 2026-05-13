@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_browser_reload",
-<<<<<<< HEAD
     "blog",
 ]
 if 'CODESPACE_NAME' in os.environ:
@@ -58,9 +57,6 @@ else:
         'https://127.0.0.1:8000',
         'http://127.0.0.1:8000',
     ]
-=======
-]
->>>>>>> d7bd340345acfbce5d36be92351462074cc67d52
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -143,10 +139,7 @@ USE_TZ = True
 
 STATICFILES_DIRS = [
     BASE_DIR / "hello_world" / "static",
-<<<<<<< HEAD
     BASE_DIR / "blog" / "static",
-=======
->>>>>>> d7bd340345acfbce5d36be92351462074cc67d52
 ]
 
 STATIC_URL = "static/"

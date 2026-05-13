@@ -23,17 +23,9 @@ from django.conf.urls.static import static
 from hello_world.core import views as core_views
 
 urlpatterns = [
-<<<<<<< HEAD
-    
-    
     path("admin/", admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
     path('', include('blog.urls')),
-=======
-    path("", core_views.index),
-    path("admin/", admin.site.urls),
-    path("__reload__/", include("django_browser_reload.urls")),
->>>>>>> d7bd340345acfbce5d36be92351462074cc67d52
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
